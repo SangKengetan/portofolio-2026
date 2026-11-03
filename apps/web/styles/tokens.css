@@ -1,0 +1,123 @@
+/* =========================================================
+   Design tokens — section 3 of rancangan-portfolio.md
+   Change values here; every component reads from these.
+   ========================================================= */
+
+:root {
+  /* ---- Light (default) ---- */
+  --bg: #f4f3ef;
+  --surface: #faf9f6;
+  --surface-2: #eceae4;
+  --border: #dddbd4;
+  --text: #1c1c1a;
+  --text-muted: #5f5e59;
+  --text-subtle: #68665f;
+
+  /* ---- Inverse (dark sections) ---- */
+  --bg-inverse: #1a1a18;
+  --surface-inverse: #242422;
+  --border-inverse: #33332f;
+  --text-inverse: #edece8;
+  --text-inverse-muted: #a3a29c;
+
+  /* ---- Functional ---- */
+  --accent: #1c1c1a; /* primary button = off-black */
+  --accent-fg: #f4f3ef;
+  --accent-hover: #33332f;
+  --success: #3f7d58;
+  --danger: #b5483b;
+  --focus: #4a6fa5;
+
+  /* ---- Category chips ---- */
+  --chip-web-bg: #e4e6e1;
+  --chip-web-fg: #3b4a3f;
+  --chip-uiux-bg: #e8e3e8;
+  --chip-uiux-fg: #4d3f4d;
+  --chip-data-bg: #e2e5ea;
+  --chip-data-fg: #3a4552;
+  --chip-other-bg: #eceae4;
+  --chip-other-fg: #5f5e59;
+
+  /* ---- Type scale: fluid between 360px (mobile) and 1280px (desktop) ---- */
+  --fs-display-xl: clamp(52px, 34.8px + 4.78vw, 96px);
+  --fs-display-ghost: clamp(72px, 37.6px + 9.57vw, 160px);
+  --fs-h1: clamp(36px, 28.2px + 2.17vw, 56px);
+  --fs-h2: clamp(28px, 24.9px + 0.87vw, 36px);
+  --fs-h3: clamp(20px, 19.2px + 0.22vw, 22px);
+  --fs-body-lg: clamp(18px, 17.2px + 0.22vw, 20px);
+  --fs-body: 16px;
+  --fs-small: 14px;
+  --fs-label: 12px;
+
+  /* ---- Layout ---- */
+  --container: 1280px;
+  --gutter: 16px;
+  --section-y: 64px;
+  --nav-h: 72px;
+
+  /* ---- Radius ---- */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  /* ---- Shadow ---- */
+  --shadow-card-hover: 0 8px 24px rgba(28, 28, 26, 0.06);
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-reveal: 600ms;
+  --dur-card: 300ms;
+  --dur-menu: 500ms;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --section-y: 96px;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --gutter: 24px;
+    --section-y: 128px;
+  }
+}
+
+/* Scoped themes — any element with data-theme re-maps the semantic tokens,
+   so components work unchanged on light and dark sections. */
+[data-theme="dark"] {
+  --bg: var(--bg-inverse);
+  --surface: var(--surface-inverse);
+  --surface-2: #2c2c29;
+  --border: var(--border-inverse);
+  --text: var(--text-inverse);
+  --text-muted: var(--text-inverse-muted);
+  --text-subtle: #94938d;
+  --accent: #edece8;
+  --accent-fg: #1a1a18;
+  --accent-hover: #f8f7f3;
+  /* lighter status colours keep WCAG AA contrast on dark surfaces */
+  --success: #6fae87;
+  --danger: #e2806f;
+  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="light"] {
+  --bg: #f4f3ef;
+  --surface: #faf9f6;
+  --surface-2: #eceae4;
+  --border: #dddbd4;
+  --text: #1c1c1a;
+  --text-muted: #5f5e59;
+  --text-subtle: #68665f;
+  --accent: #1c1c1a;
+  --accent-fg: #f4f3ef;
+  --accent-hover: #33332f;
+  --success: #3f7d58;
+  --danger: #b5483b;
+}
+
+[data-theme] {
+  color: var(--text);
+}

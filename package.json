@@ -1,0 +1,23 @@
+{
+  "name": "portfolio",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Personal portfolio \u2014 Web, UI/UX & Data projects (monorepo)",
+  "scripts": {
+    "dev": "pnpm --filter @portfolio/web dev",
+    "build": "pnpm --filter @portfolio/web build",
+    "start": "pnpm --filter @portfolio/web start",
+    "typecheck": "pnpm -r typecheck",
+    "dev:api": "pnpm --filter @portfolio/api dev",
+    "build:api": "pnpm --filter @portfolio/api build",
+    "start:api": "pnpm --filter @portfolio/api start",
+    "test:api": "pnpm --filter @portfolio/api test",
+    "migrate": "pnpm --filter @portfolio/api migrate",
+    "seed:admin": "pnpm --filter @portfolio/api seed:admin",
+    "seed:demo": "pnpm --filter @portfolio/api seed:demo"
+  },
+  "engines": {
+    "node": ">=20.9"
+  },
+  "packageManager": "pnpm@10.28.0"
+}

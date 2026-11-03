@@ -1,0 +1,301 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+/* Expose tokens to Tailwind utilities (bg-bg, text-text-muted, rounded-lg, font-serif, ...) */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-text-subtle: var(--text-subtle);
+  --color-bg-inverse: var(--bg-inverse);
+  --color-surface-inverse: var(--surface-inverse);
+  --color-text-inverse: var(--text-inverse);
+  --color-text-inverse-muted: var(--text-inverse-muted);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-hover: var(--accent-hover);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --color-focus: var(--focus);
+
+  --font-sans: var(--font-inter-tight), "Inter Tight", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument-serif), "Instrument Serif", ui-serif, Georgia, serif;
+  --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+}
+
+/* Same names as tokens.css: Tailwind generates rounded-sm/md/lg/xl, shadow-card-hover
+   and ease-out utilities that read var(--…), and tokens.css (unlayered) wins the cascade. */
+@theme {
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --shadow-card-hover: 0 8px 24px rgba(28, 28, 26, 0.06);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- Typography utilities (section 3.2) ---------- */
+@utility text-display-xl {
+  font-size: var(--fs-display-xl);
+  line-height: 0.95;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+@utility text-display-ghost {
+  font-size: var(--fs-display-ghost);
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+}
+@utility text-h1 {
+  font-size: var(--fs-h1);
+  line-height: 1.05;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+@utility text-h2 {
+  font-size: var(--fs-h2);
+  line-height: 1.15;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+@utility text-h3 {
+  font-size: var(--fs-h3);
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+@utility text-body-lg {
+  font-size: var(--fs-body-lg);
+  line-height: 1.6;
+}
+@utility text-body {
+  font-size: var(--fs-body);
+  line-height: 1.65;
+}
+@utility text-small {
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+@utility text-label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-label);
+  line-height: 1.4;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ---------- Layout utilities ---------- */
+@utility container-site {
+  width: 100%;
+  max-width: calc(var(--container) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+@utility section-y {
+  padding-block: var(--section-y);
+}
+
+/* ---------- Base ---------- */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: var(--nav-h);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: var(--fs-body);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--text);
+    color: var(--bg);
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  img {
+    max-width: 100%;
+  }
+}
+
+/* ---------- Motion (section 3.4) ---------- */
+@layer components {
+  /* Scroll reveal — toggled by <Reveal/> */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity var(--dur-reveal) var(--ease-out),
+      transform var(--dur-reveal) var(--ease-out);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .reveal[data-visible="true"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Hero words appear one by one (stagger set inline) */
+  .word-in {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.35em);
+    animation: word-in 700ms var(--ease-out) forwards;
+  }
+
+  /* Typing caret */
+  .caret {
+    display: inline-block;
+    width: 0.5em;
+    height: 0.95em;
+    margin-left: 0.08em;
+    vertical-align: -0.1em;
+    background: currentColor;
+    opacity: 0.85;
+    animation: blink 1s steps(1) infinite;
+  }
+
+  /* Page transition (app/(site)/template.tsx) */
+  .page-fade {
+    animation: page-fade 200ms ease-out both;
+  }
+
+  /* Monochrome photos that gain colour on hover */
+  .photo-mono {
+    filter: grayscale(100%);
+    transition: filter 400ms var(--ease-out), transform var(--dur-card) var(--ease-out);
+  }
+  .group:hover .photo-mono,
+  .photo-mono:hover {
+    filter: grayscale(0%);
+  }
+
+  /* Prose for rich-text case-study blocks */
+  .prose-case {
+    color: var(--text-muted);
+    font-size: var(--fs-body-lg);
+    line-height: 1.7;
+  }
+  .prose-case > * + * {
+    margin-top: 1em;
+  }
+  .prose-case strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .prose-case a {
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .prose-case ul {
+    list-style: disc;
+    padding-left: 1.25em;
+  }
+  .prose-case ol {
+    list-style: decimal;
+    padding-left: 1.25em;
+  }
+
+  /* Rich-text editor in the admin (mirrors .prose-case on the site) */
+  .prose-admin > * + * {
+    margin-top: 0.75em;
+  }
+  .prose-admin h2,
+  .prose-admin h3,
+  .prose-admin h4 {
+    font-weight: 600;
+    font-size: 1.1em;
+    color: var(--text);
+  }
+  .prose-admin ul {
+    list-style: disc;
+    padding-left: 1.4em;
+  }
+  .prose-admin ol {
+    list-style: decimal;
+    padding-left: 1.4em;
+  }
+  .prose-admin blockquote {
+    border-left: 2px solid var(--border);
+    padding-left: 0.9em;
+    color: var(--text-muted);
+  }
+  .prose-admin a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .prose-case blockquote {
+    border-left: 2px solid var(--text);
+    padding-left: 1em;
+    font-style: italic;
+  }
+  .prose-case h2,
+  .prose-case h3,
+  .prose-case h4 {
+    color: var(--text);
+    font-weight: 600;
+    font-size: 1.05em;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@keyframes word-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes page-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .word-in {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  .caret,
+  .page-fade {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
